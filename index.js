@@ -56,28 +56,29 @@ client.on("messageCreate", async (message) => {
 
   const clientInfo = config.clients[clientRoleId];
 
-  // Unlimited until Jan 31
-  let remaining = "999+";
-  const now = new Date();
-  const endOfUnlimited = new Date("2025-01-31T23:59:59");
+  // MCBets unlimited until Jan 31, 2026
+let remaining;
+const now = new Date();
+const endOfUnlimited = new Date("2026-01-31T23:59:59");
 
-  if (now < endOfUnlimited) {
-    remaining = "999+";
-  } else {
-    // Normal quota mode
-    const used = clientInfo.used || 0;
-    const quota = clientInfo.monthlyQuota;
+// Only unlimited if this client is marked unlimited (monthlyQuota === -1)
+if (clientInfo.monthlyQuota === -1 && now < endOfUnlimited) {
+  remaining = "999+";
+} else {
+  const used = clientInfo.used || 0;
+  const quota = clientInfo.monthlyQuota === -1 ? 0 : clientInfo.monthlyQuota;
 
-    let remainingNum = quota - used;
-    if (remainingNum > 999) remainingNum = "999+";
-    remaining = remainingNum.toString();
+  let remainingNum = quota - used;
+  if (remainingNum < 0) remainingNum = 0;
+  if (remainingNum > 999) remainingNum = "999+";
 
-    // Increase usage
-    if (remainingNum !== "999+") {
-      clientInfo.used += 1;
-      saveConfig(config);
-    }
+  remaining = remainingNum.toString();
+
+  if (remainingNum !== "999+") {
+    clientInfo.used += 1;
+    saveConfig(config);
   }
+}
 
   // Build the embed (PARENT CHANNEL)
   const embed = new EmbedBuilder()
@@ -159,3 +160,4 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
