@@ -109,11 +109,11 @@ if (clientInfo.monthlyQuota === -1 && now < endOfUnlimited) {
 
   // First message INSIDE the thread only
   await thread.send(
-    `Got it! Your request has been logged under **${clientInfo.name}**.\n` +
-    `You have **${remaining}** designs remaining until your current period ends.\n` +
-    `You'll be notified here when your design is complete.`
-  );
-});
+  `<@${process.env.ADMIN_USER_ID}> New request submitted.\n` +
+  `Got it! Your request has been logged under **${clientInfo.name}**.\n` +
+  `You have **${remaining}** designs remaining until your current period ends.\n` +
+  `You'll be notified here when your design is complete.`
+);
 
 // Handle reaction for marking complete
 client.on("messageReactionAdd", async (reaction, user) => {
@@ -164,5 +164,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
 
