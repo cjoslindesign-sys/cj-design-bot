@@ -1,0 +1,17 @@
+{
+  "period": "2025-12",
+  "clients": {
+    "1445192036906172456": {
+      "name": "MCBets",
+      "monthlyQuota": -1,
+      "used": 0,
+      "expires": "2025-01-31"
+    },
+    "1445241153233354794": {
+      "name": "FurnacePicks",
+      "monthlyQuota": 10,
+      "used": 0,
+      "expires": "2025-12-31"
+    }
+  }
+}
