@@ -99,9 +99,13 @@ if (clientInfo.monthlyQuota === -1 && now < endOfUnlimited) {
 
   // Create thread
   const thread = await embedMessage.startThread({
-    name: `${clientInfo.name} – ${requestText}`,
-    autoArchiveDuration: 1440
-  });
+  name: `${clientInfo.name} – ${requestText}`,
+  autoArchiveDuration: 1440
+});
+
+// Add client to thread
+  await thread.members.add(message.author.id);
+
 
   // First message INSIDE the thread only
   await thread.send(
@@ -160,4 +164,5 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
