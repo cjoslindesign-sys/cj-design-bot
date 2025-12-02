@@ -114,7 +114,7 @@ if (clientInfo.monthlyQuota === -1 && now < endOfUnlimited) {
   `You have **${remaining}** designs remaining until your current period ends.\n` +
   `You'll be notified here when your design is complete.`
 );
-
+});
 // Handle reaction for marking complete
 client.on("messageReactionAdd", async (reaction, user) => {
   if (user.bot) return;
@@ -164,6 +164,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
 
 
