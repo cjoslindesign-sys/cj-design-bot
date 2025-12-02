@@ -83,7 +83,7 @@ if (quota === -1) {
     saveConfig(config);
   }
 }
-
+}
 
   // Build the embed (PARENT CHANNEL)
   const embed = new EmbedBuilder()
@@ -173,6 +173,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
 
 
