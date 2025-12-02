@@ -65,20 +65,25 @@ const endOfUnlimited = new Date("2026-01-31T23:59:59");
 if (clientInfo.monthlyQuota === -1 && now < endOfUnlimited) {
   remaining = "999+";
 } else {
-  const used = clientInfo.used || 0;
-  const quota = clientInfo.monthlyQuota === -1 ? 0 : clientInfo.monthlyQuota;
+  // Normal quota mode
+let used = Number(clientInfo.used) || 0;
+let quota = Number(clientInfo.monthlyQuota);
 
-  let remainingNum = quota - used;
-  if (remainingNum < 0) remainingNum = 0;
-  if (remainingNum > 999) remainingNum = "999+";
+let remainingNum = quota - used;
 
-  remaining = remainingNum.toString();
-
-  if (remainingNum !== "999+") {
-    clientInfo.used += 1;
+// Unlimited protection (if someone uses -1)
+if (quota === -1) {
+  remaining = "999+";
+} else {
+  if (remainingNum > 999) {
+    remaining = "999+";
+  } else {
+    remaining = remainingNum.toString();
+    clientInfo.used = used + 1;  // safe numeric increment
     saveConfig(config);
   }
 }
+
 
   // Build the embed (PARENT CHANNEL)
   const embed = new EmbedBuilder()
@@ -168,6 +173,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
 
 
